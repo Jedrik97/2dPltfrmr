@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 47025424}
   - component: {fileID: 47025423}
   - component: {fileID: 47025426}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Tilemap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -726,6 +726,8 @@ GameObject:
   - component: {fileID: 852863510}
   - component: {fileID: 852863515}
   - component: {fileID: 852863514}
+  - component: {fileID: 852863517}
+  - component: {fileID: 852863516}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -839,10 +841,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 5
   _jumpForce: 5
-  _groundCheck: 0
-  _sprite: {fileID: 996833973}
   _groundCheckRadius: 0.7
-  _mask:
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 8
+--- !u!114 &852863516
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852863509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c3682e6e8e2aa46ac81a6b0bcd5b8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 996833973}
+--- !u!114 &852863517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852863509}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 122ec510e6531d746a3df40c89062034, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  groundCheckRadius: 0.7
+  groundMask:
     serializedVersion: 2
     m_Bits: 8
 --- !u!1 &996833970
