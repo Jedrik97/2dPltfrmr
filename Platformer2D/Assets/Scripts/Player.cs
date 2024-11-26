@@ -1,8 +1,9 @@
 using UnityEngine;
+// ReSharper disable All
 public class Player : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float _speed = 5f;
+    [SerializeField] private float _speed= 5f;
     [SerializeField] private float _jumpForce = 5f;
 
     [Header("Ground Check")]
@@ -36,12 +37,12 @@ public class Player : MonoBehaviour
             _canDoubleJump = true;
         }
     }
-    internal void Move(float direction)
+    internal void Move()
     {
-        Vector3 movement = Vector3.right * direction;
-        transform.position = Vector3.MoveTowards(transform.position, transform.position + movement, _speed * Time.deltaTime);
+        float horizontal = Input.GetAxis("Horizontal");
+        _rigidBody2D.linearVelocity = new Vector2(horizontal * _speed, _rigidBody2D.linearVelocity.y);
         
-        _flipController.FlipX(direction);
+       _flipController.FlipX(_rigidBody2D.linearVelocity.x);
     }
     internal void Jump()
     {
@@ -58,6 +59,7 @@ public class Player : MonoBehaviour
     public bool IsGrounded()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _groundCheckRadius, _groundMask);
+       
         return hit.collider;
     }
     private void OnDisable()

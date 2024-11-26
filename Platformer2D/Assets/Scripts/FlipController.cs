@@ -3,11 +3,11 @@ using UnityEngine;
 public class FlipController : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
-    public void FlipX(float direction)
+    public void FlipX(float velocity)
     {
-        if (direction != 0)
+        if (velocity != 0)
         {
-            spriteRenderer.flipX = direction < 0;
+            spriteRenderer.flipX = velocity < 0;
         }
     }
 }
