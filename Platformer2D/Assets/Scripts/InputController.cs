@@ -16,7 +16,7 @@ public class InputController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            Player.Instance.Jump();
+            PlayerMovement.Instance.Jump();
         }
     }
 }
