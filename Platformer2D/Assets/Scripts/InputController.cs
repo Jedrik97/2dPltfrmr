@@ -6,6 +6,8 @@ public class InputController : MonoBehaviour
     
     public delegate void HorizontalInputAction();
     public static HorizontalInputAction _horizontalInputAction;
+    public delegate void VerticalInputAction();
+    public static VerticalInputAction _verticalInputAction;
     void Update()
     {
         _horizontalInput = Input.GetAxis("Horizontal");
@@ -16,7 +18,7 @@ public class InputController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PlayerMovement.Instance.Jump();
+            _verticalInputAction?.Invoke();
         }
     }
 }

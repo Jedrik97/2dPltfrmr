@@ -1,9 +1,9 @@
 using UnityEngine;
-// ReSharper disable All
+
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
-    [SerializeField] private float _speed= 5f;
+    [SerializeField] private float _speed = 5f;
     [SerializeField] private float _jumpForce = 5f;
 
     [Header("Ground Check")]
@@ -12,24 +12,27 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Components")]
     private Rigidbody2D _rigidBody2D;
-    private FlipController _flipController;
 
     private bool _canDoubleJump = false;
 
     public static PlayerMovement Instance;
+
     private void OnEnable()
     {
         InputController._horizontalInputAction += Move;
+        InputController._verticalInputAction += Jump;
     }
+
     private void Awake()
     {
         Instance = this;
     }
+
     private void Start()
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
-        _flipController = GetComponent<FlipController>();
     }
+
     private void Update()
     {
         if (IsGrounded())
@@ -37,13 +40,13 @@ public class PlayerMovement : MonoBehaviour
             _canDoubleJump = true;
         }
     }
+
     internal void Move()
     {
         float horizontal = Input.GetAxis("Horizontal");
         _rigidBody2D.linearVelocity = new Vector2(horizontal * _speed, _rigidBody2D.linearVelocity.y);
-        
-       _flipController.FlipX(_rigidBody2D.linearVelocity.x);
     }
+
     internal void Jump()
     {
         if (IsGrounded())
@@ -53,17 +56,39 @@ public class PlayerMovement : MonoBehaviour
         else if (_canDoubleJump)
         {
             _rigidBody2D.linearVelocity = new Vector2(_rigidBody2D.linearVelocity.x, _jumpForce);
-            _canDoubleJump = false; 
+            _canDoubleJump = false;
         }
     }
+
     public bool IsGrounded()
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, _groundCheckRadius, _groundMask);
-       
-        return hit.collider;
+        return hit.collider != null;
     }
+
+    public bool IsMoving()
+    {
+        return Mathf.Abs(_rigidBody2D.linearVelocity.x) > 0.1f;
+    }
+
+    public bool IsJumpingUp()
+    {
+        return _rigidBody2D.linearVelocity.y > 0;
+    }
+
+    public bool IsFalling()
+    {
+        return _rigidBody2D.linearVelocity.y < 0;
+    }
+
+    public bool IsFacingRight()
+    {
+        return _rigidBody2D.linearVelocity.x >= 0;
+    }
+
     private void OnDisable()
     {
         InputController._horizontalInputAction -= Move;
+        InputController._verticalInputAction -= Jump;
     }
 }
