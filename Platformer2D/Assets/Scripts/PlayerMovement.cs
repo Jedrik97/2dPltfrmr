@@ -66,25 +66,7 @@ public class PlayerMovement : MonoBehaviour
         return hit.collider != null;
     }
 
-    public bool IsMoving()
-    {
-        return Mathf.Abs(_rigidBody2D.linearVelocity.x) > 0.1f;
-    }
-
-    public bool IsJumpingUp()
-    {
-        return _rigidBody2D.linearVelocity.y > 0;
-    }
-
-    public bool IsFalling()
-    {
-        return _rigidBody2D.linearVelocity.y < 0;
-    }
-
-    public bool IsFacingRight()
-    {
-        return _rigidBody2D.linearVelocity.x >= 0;
-    }
+    
 
     private void OnDisable()
     {

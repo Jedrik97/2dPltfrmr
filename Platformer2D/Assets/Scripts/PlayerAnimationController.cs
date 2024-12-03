@@ -4,8 +4,8 @@ public class PlayerAnimationController : MonoBehaviour
 {
     [Header("Components")]
     private Animator _animator;
-    private SpriteRenderer _spriteRenderer;
     private PlayerMovement _playerMovement;
+    private SpriteRenderer _spriteRenderer;
 
     private void Awake()
     {
@@ -22,26 +22,34 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void HandleFlip()
     {
-        if (!_playerMovement.IsGrounded() && _playerMovement.IsFalling())
-            return; 
-
-        _spriteRenderer.flipX = !_playerMovement.IsFacingRight();
+        float horizontalInput = Input.GetAxis("Horizontal");
+        if (horizontalInput > 0)
+        {
+            _spriteRenderer.flipX = false; 
+        }
+        else if (horizontalInput < 0)
+        {
+            _spriteRenderer.flipX = true;
+        }
     }
 
     private void UpdateAnimationState()
     {
+        float verticalVelocity = _playerMovement.GetComponent<Rigidbody2D>().linearVelocity.y;
+        float horizontalInput = Mathf.Abs(Input.GetAxis("Horizontal"));
+
         if (!_playerMovement.IsGrounded())
         {
-            if (_playerMovement.IsJumpingUp())
+            if (verticalVelocity > 0)
             {
                 _animator.Play("PlayerJumpUp");
             }
-            else if (_playerMovement.IsFalling())
+            else if (verticalVelocity < 0)
             {
                 _animator.Play("PlayerJumpFall");
             }
         }
-        else if (_playerMovement.IsMoving())
+        else if (horizontalInput > 0.1f) 
         {
             _animator.Play("PlayerRun");
         }
