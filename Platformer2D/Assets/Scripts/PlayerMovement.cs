@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     private bool _canDoubleJump = false;
 
-    public static PlayerMovement Instance;
+   
 
     private void OnEnable()
     {
@@ -23,10 +23,7 @@ public class PlayerMovement : MonoBehaviour
         InputController._verticalInputAction += Jump;
     }
 
-    private void Awake()
-    {
-        Instance = this;
-    }
+   
 
     private void Start()
     {

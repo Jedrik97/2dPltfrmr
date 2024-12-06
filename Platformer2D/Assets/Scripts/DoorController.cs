@@ -3,22 +3,16 @@ using UnityEngine;
 public class DoorController : MonoBehaviour
 {
     [Header("Sprites")]
-    [SerializeField] private Sprite closedDoorSprite; 
-    [SerializeField] private Sprite openDoorSprite;   
-    [SerializeField] private SpriteRenderer doorSpriteRenderer; 
+    [SerializeField] private Sprite openDoorSprite;
+    [SerializeField] private SpriteRenderer doorSpriteRenderer;
+
+    [SerializeField] private GameManager gameManager;
 
     private bool isOpen = false;
 
-    private void OnEnable()
+    private void Start()
     {
-        
-        GameKeyManager.OnKeyCollected += OpenDoor;
-    }
-
-    private void OnDisable()
-    {
-        
-        GameKeyManager.OnKeyCollected -= OpenDoor;
+        gameManager.OnKeyCollectedAction = OpenDoor;
     }
 
     private void OpenDoor()
@@ -26,8 +20,8 @@ public class DoorController : MonoBehaviour
         if (!isOpen)
         {
             isOpen = true;
-            doorSpriteRenderer.sprite = openDoorSprite; 
-            Debug.Log("Door opened automatically!");
+            doorSpriteRenderer.sprite = openDoorSprite;
+            Debug.Log("Door opened!");
         }
     }
 }
