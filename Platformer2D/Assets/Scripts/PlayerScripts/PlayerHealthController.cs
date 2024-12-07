@@ -9,7 +9,7 @@ public class PlayerHealthController : MonoBehaviour
     [SerializeField] private Texture2D halfHeartTexture;
     [SerializeField] private Texture2D emptyHeartTexture;
 
-    [Header("Player Reference")]
+    [Header("Player Parameters")]
     [SerializeField] private PlayerMovement playerMovement; 
 
     private int maxHearts = 3;
@@ -33,7 +33,6 @@ public class PlayerHealthController : MonoBehaviour
             Debug.Log("Game Over");
         }
 
-        
         ResetPlayerSpeed();
     }
 

@@ -16,11 +16,11 @@ public class PlayerAnimationController : MonoBehaviour
 
     private void Update()
     {
-        HandleFlip();
+        Flip();
         UpdateAnimationState();
     }
 
-    private void HandleFlip()
+    private void Flip()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         if (horizontalInput > 0)
