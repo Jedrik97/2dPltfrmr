@@ -15,7 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     private Rigidbody2D _rigidBody2D;
     private bool _canDoubleJump = false;
-    private float fallTime = 0f;
+    
 
     private void Start()
     {
@@ -32,24 +32,14 @@ public class PlayerMovement : MonoBehaviour
         if (IsGrounded())
         {
             _canDoubleJump = true;
-            fallTime = 0f; 
-        }
-        else
-        {
-            fallTime += Time.deltaTime;
-            if (fallTime > 3f)
-            {
-                Respawn();
-            }
+            
         }
     }
-
     internal void Move()
     {
         float horizontal = Input.GetAxis("Horizontal");
         _rigidBody2D.linearVelocity = new Vector2(horizontal * _currentSpeed, _rigidBody2D.linearVelocity.y);
     }
-
     internal void Jump()
     {
         if (IsGrounded())
@@ -62,12 +52,7 @@ public class PlayerMovement : MonoBehaviour
             _canDoubleJump = false;
         }
     }
-
-    private void Respawn()
-    {
-        transform.position = respawnPoint.position;
-        healthController.TakeDamage(1); 
-    }
+    
 
     public bool IsGrounded()
     {

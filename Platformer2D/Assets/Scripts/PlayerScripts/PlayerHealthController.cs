@@ -9,8 +9,10 @@ public class PlayerHealthController : MonoBehaviour
     [SerializeField] private Texture2D halfHeartTexture;
     [SerializeField] private Texture2D emptyHeartTexture;
 
-    [Header("Player Parameters")]
-    [SerializeField] private PlayerMovement playerMovement; 
+    [Header("Player Parameters")] 
+    [SerializeField] private Transform respawnPoint;
+    [SerializeField] private PlayerMovement playerMovement;
+    
 
     private int maxHearts = 3;
     private int maxHealthPerHeart = 2;
@@ -33,7 +35,13 @@ public class PlayerHealthController : MonoBehaviour
             Debug.Log("Game Over");
         }
 
-        ResetPlayerSpeed();
+       RespawnPlayer();
+       ResetPlayerSpeed();
+    }
+    
+    private void RespawnPlayer()
+    {
+        transform.position = respawnPoint.position;
     }
 
     public void Heal(int healAmount)
