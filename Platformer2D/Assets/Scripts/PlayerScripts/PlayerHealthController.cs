@@ -12,6 +12,7 @@ public class PlayerHealthController : MonoBehaviour
     [Header("Player Parameters")] 
     [SerializeField] private Transform respawnPoint;
     [SerializeField] private PlayerMovement playerMovement;
+    
 
     private int maxHearts = 3;
     private int maxHealthPerHeart = 2;
@@ -19,7 +20,7 @@ public class PlayerHealthController : MonoBehaviour
 
     private void Start()
     {
-        currentHealth = PlayerPrefs.GetInt("PlayerHealth", 2);
+        currentHealth = 2;
         UpdateHealthUI();
     }
 
@@ -32,10 +33,12 @@ public class PlayerHealthController : MonoBehaviour
         if (currentHealth <= 0)
         {
             Debug.Log("Game Over");
-            RespawnPlayer();
         }
-    }
 
+       RespawnPlayer();
+       ResetPlayerSpeed();
+    }
+    
     private void RespawnPlayer()
     {
         transform.position = respawnPoint.position;
@@ -44,7 +47,7 @@ public class PlayerHealthController : MonoBehaviour
     public void Heal(int healAmount)
     {
         currentHealth += healAmount;
-        currentHealth = Mathf.Min(currentHealth, maxHearts * maxHealthPerHeart);
+        currentHealth = Mathf.Min(currentHealth, maxHearts * maxHealthPerHeart); 
         UpdateHealthUI();
     }
 
@@ -69,11 +72,11 @@ public class PlayerHealthController : MonoBehaviour
         }
     }
 
-    public int GetCurrentHealth() => currentHealth;
-
-    public void SetHealth(int health)
+    private void ResetPlayerSpeed()
     {
-        currentHealth = Mathf.Clamp(health, 0, maxHearts * maxHealthPerHeart);
-        UpdateHealthUI();
+        if (playerMovement != null)
+        {
+            playerMovement.ResetSpeedToDefault();
+        }
     }
 }

@@ -2,45 +2,49 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement Settings")]
-    [SerializeField] private float _defaultSpeed = 5f;
+    [Header("Movement")] [SerializeField] private float _defaultSpeed = 5f;
     [SerializeField] private float _jumpForce = 5f;
-
+    [SerializeField] private Transform respawnPoint; 
+    [SerializeField] private PlayerHealthController healthController;
     private float _currentSpeed;
     private float _maxSpeed = 8f;
 
     [Header("Ground Check")]
-    [SerializeField] private float _groundCheckRadius = 0.5f;
+    [SerializeField] private float _groundCheckRadius = 0.7f;
     [SerializeField] private LayerMask _groundMask;
 
     private Rigidbody2D _rigidBody2D;
-    private bool _canDoubleJump;
+    private bool _canDoubleJump = false;
+    
 
     private void Start()
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
-        _currentSpeed = PlayerPrefs.GetFloat("PlayerSpeed", _defaultSpeed);
+        _currentSpeed = _defaultSpeed;
     }
-
     private void OnEnable()
     {
-      
         InputController._horizontalInputAction += Move;
         InputController._verticalInputAction += Jump;
     }
-
-    private void Move()
+    private void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        _rigidBody2D.linearVelocity = new Vector2(horizontalInput * _currentSpeed, _rigidBody2D.linearVelocity.y);
+        if (IsGrounded())
+        {
+            _canDoubleJump = true;
+            
+        }
     }
-
-    private void Jump()
+    internal void Move()
+    {
+        float horizontal = Input.GetAxis("Horizontal");
+        _rigidBody2D.linearVelocity = new Vector2(horizontal * _currentSpeed, _rigidBody2D.linearVelocity.y);
+    }
+    internal void Jump()
     {
         if (IsGrounded())
         {
             _rigidBody2D.linearVelocity = new Vector2(_rigidBody2D.linearVelocity.x, _jumpForce);
-            _canDoubleJump = true;
         }
         else if (_canDoubleJump)
         {
@@ -48,6 +52,7 @@ public class PlayerMovement : MonoBehaviour
             _canDoubleJump = false;
         }
     }
+    
 
     public bool IsGrounded()
     {
@@ -57,19 +62,20 @@ public class PlayerMovement : MonoBehaviour
 
     public void IncreaseSpeed(float amount)
     {
-        _currentSpeed = Mathf.Min(_currentSpeed + amount, _maxSpeed);
+        {
+            _currentSpeed += amount;
+            _currentSpeed = Mathf.Min(_currentSpeed, _maxSpeed);
+        }
     }
-
-    public float GetCurrentSpeed() => _currentSpeed;
-
-    public void SetCurrentSpeed(float speed)
+    public void ResetSpeedToDefault()
     {
-        _currentSpeed = Mathf.Clamp(speed, _defaultSpeed, _maxSpeed);
+        _currentSpeed = _defaultSpeed; 
+        Debug.Log("Speed reset");
     }
     private void OnDisable()
     {
-     
         InputController._horizontalInputAction -= Move;
         InputController._verticalInputAction -= Jump;
     }
 }
+
