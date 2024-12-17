@@ -8,8 +8,10 @@ public class Boundary
 
 public class PlayerController : MonoBehaviour
 {
-
-
+    [SerializeField] private GameObject _shotPrefab;
+    [SerializeField] private Transform _shotSpawn;
+    [SerializeField] private float _fareRate = 1f;
+    private float _nextFire; 
     private Rigidbody _rg;
     [SerializeField] private float _speed = 5f;
     [SerializeField] private float _titlAngle = 45f;
@@ -19,6 +21,14 @@ public class PlayerController : MonoBehaviour
         _rg = GetComponent<Rigidbody>();
     }
 
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time >= _nextFire)
+        {
+            _nextFire = Time.time + _fareRate;
+            Instantiate(_shotPrefab, _shotSpawn.position, _shotSpawn.rotation);  
+        }
+    }
     void FixedUpdate()
     {
         float moveHorizontal = Input.GetAxis("Horizontal");
