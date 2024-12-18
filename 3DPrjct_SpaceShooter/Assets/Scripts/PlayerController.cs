@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] private GameObject _shotPrefab;
     [SerializeField] private Transform _shotSpawn;
-    [SerializeField] private float _fareRate = 1f;
+    [SerializeField] private float _fareRate = 0.5f;
     private float _nextFire; 
     private Rigidbody _rg;
     [SerializeField] private float _speed = 5f;
