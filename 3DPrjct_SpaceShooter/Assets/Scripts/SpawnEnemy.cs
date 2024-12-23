@@ -15,10 +15,9 @@ public class SpawnEnemy : MonoBehaviour
         if (Time.time >= _spawnTimer)
         {
             _spawnTimer += Time.deltaTime + _spawnInterval;
-                Instantiate(_enemyPrefab[Random.Range(0, _enemyPrefab.Count)], SpawnPosition(), Quaternion.identity); 
+            Instantiate(_enemyPrefab[Random.Range(0, _enemyPrefab.Count)], SpawnPosition(), Quaternion.identity); 
         }
     }
-
     Vector3 SpawnPosition()
     {
         Vector3 position = new Vector3

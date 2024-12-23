@@ -11,10 +11,4 @@ public class BoltController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody>();
         _rigidbody.linearVelocity = Vector3.forward * _speed;
     }
-
-    
-    void Update()
-    {
-        
-    }
 }

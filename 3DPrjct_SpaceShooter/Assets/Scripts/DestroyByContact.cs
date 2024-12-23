@@ -2,36 +2,37 @@ using UnityEngine;
 
 public class DestroyByContact : MonoBehaviour
 {
-    [SerializeField] private GameObject _playerExplosion;
-    [SerializeField] private GameObject _explosion; 
+    [SerializeField] private GameObject _playerExplosion; 
+    [SerializeField] private GameObject _explosion;      
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Boundary"))
+        
+        if (CompareTag("Bolt") && other.CompareTag("Player"))
         {
-            return;
+            return; 
         }
         
-        if ((CompareTag("Bolt") && other.CompareTag("Player")) ||
-            (CompareTag("EnemyBolt") && other.CompareTag("Enemy")))
+        if (CompareTag("Bolt") && other.CompareTag("Enemy"))
         {
-            return;
+            if (_explosion != null)
+            {
+                Instantiate(_explosion, other.transform.position, other.transform.rotation);
+            }
+            Destroy(other.gameObject);
+            ReturnBoltToPool(gameObject);
         }
-
-     
-        if (_explosion != null && !CompareTag("Bolt"))
+    }
+    private void ReturnBoltToPool(GameObject bolt)
+    {
+        PlayerController playerController = FindObjectOfType<PlayerController>(); 
+        if (playerController != null)
         {
-            Instantiate(_explosion, transform.position, transform.rotation);
+            playerController.ReturnBoltToPool(bolt); 
         }
-
-        
-        if (other.CompareTag("Player"))
+        else
         {
-            Instantiate(_playerExplosion, other.transform.position, other.transform.rotation);
+            Destroy(bolt);
         }
-
-        
-        Destroy(other.gameObject); 
-        Destroy(gameObject); 
     }
 }

@@ -12,5 +12,4 @@ public class AsteroidController : MonoBehaviour
         _rigidbody.linearVelocity = Vector3.back * _speed;
         _rigidbody.angularVelocity = Random.insideUnitSphere * _rotationSpeed;
     }
-    
 }
