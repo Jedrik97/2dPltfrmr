@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.PlayerLoop;
 
 [System.Serializable]
 public class Boundary
@@ -24,8 +25,11 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         _rg = GetComponent<Rigidbody>();
+        
         InitializePool();
+        
     }
+
     void Update()
     {
         HandleShooting();
@@ -55,10 +59,14 @@ public class PlayerController : MonoBehaviour
             bolt.transform.position = _boltSpawn.position; 
             bolt.transform.rotation = _boltSpawn.rotation; 
             bolt.SetActive(true);
-            
-            Rigidbody rb = bolt.GetComponent<Rigidbody>();
-            rb.linearVelocity = Vector3.forward * 10f; 
+                
+            DestroyByContact destroyByContact = bolt.GetComponent<DestroyByContact>();
+            if (destroyByContact != null)
+            {
+                destroyByContact.OnReturnToPool = ReturnBoltToPool; 
+            }
         }
+    
     }
     private GameObject GetPooledBolt()
     {

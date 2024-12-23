@@ -1,8 +1,9 @@
+using System;
 using UnityEngine;
 
 public class DestroyBoundary : MonoBehaviour
 {
-    PlayerController _playerController;
+    [SerializeField] private PlayerController _playerController;
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Bolt"))
@@ -15,9 +16,9 @@ public class DestroyBoundary : MonoBehaviour
         }
     }
 
+  
     private void ReturnBoltToPool(GameObject bolt)
     {
-        _playerController = FindObjectOfType<PlayerController>();
         if (_playerController != null)
         {
             _playerController.ReturnBoltToPool(bolt);
