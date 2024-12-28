@@ -598,8 +598,6 @@ GameObject:
   - component: {fileID: 1468435526}
   - component: {fileID: 1468435525}
   - component: {fileID: 1468435524}
-  - component: {fileID: 1468435523}
-  - component: {fileID: 1468435530}
   - component: {fileID: 1468435529}
   - component: {fileID: 1468435531}
   m_Layer: 0
@@ -609,23 +607,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1468435523
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468435522}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1346d531302356f47a6f8bfe4c111a9b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementSpeed: 5
-  rotationSpeed: 700
-  jumpForce: 5
-  gravity: -9.81
-  _camera: {fileID: 481346504}
 --- !u!143 &1468435524
 CharacterController:
   m_ObjectHideFlags: 0
@@ -765,20 +746,6 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &1468435530
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1468435522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee27c1c322fa1e744971cb099f763a76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _moveSpeed: 5
-  _camera: {fileID: 481346504}
 --- !u!54 &1468435531
 Rigidbody:
   m_ObjectHideFlags: 0
