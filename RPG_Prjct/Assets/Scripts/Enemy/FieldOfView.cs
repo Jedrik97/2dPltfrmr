@@ -32,12 +32,11 @@ public class FieldOfView : MonoBehaviour
             yield return new WaitForSeconds(seconds);
             GetVisibleTarget();
         }
-
-        yield break;
     }
 
     private void Update()
     {
+        
         DrawFieldOfView();
     }
 
@@ -50,14 +49,14 @@ public class FieldOfView : MonoBehaviour
         for (int i = 0; i <= stepCount; i++)
         {
             float angle = transform.eulerAngles.y - _viewAngle / 2 + angleStep * i;
-            ViewCastInfo newViewCast = ViewCastInfo(angle);
+            ViewCastInfo newViewCast = ViewCast(angle);
             viewPoints.Add(newViewCast.point);
         }
 
         int vertexCount = viewPoints.Count + 1;
         Vector3[] vertices = new Vector3[vertexCount];
         int[] triangles = new int[(vertexCount - 2) * 3];
-        
+
         vertices[0] = Vector3.zero;
         for (int i = 0; i < vertexCount - 1; i++)
         {
@@ -79,21 +78,31 @@ public class FieldOfView : MonoBehaviour
     private void GetVisibleTarget()
     {
         _targets.Clear();
+
         Collider[] targetsInViewRadius = Physics.OverlapSphere(transform.position, _viewRadius, _targetMask);
+        HashSet<Transform> uniqueTargets = new HashSet<Transform>();
+
         for (int i = 0; i < targetsInViewRadius.Length; i++)
         {
             Transform target = targetsInViewRadius[i].transform;
+
+           
+            if (uniqueTargets.Contains(target))
+                continue;
+
             Vector3 directionToTarget = (target.position - transform.position).normalized;
+
             if (Vector3.Angle(transform.forward, directionToTarget) < _viewAngle / 2)
             {
                 float distanceToTarget = Vector3.Distance(transform.position, target.position);
+
                 if (!Physics.Raycast(transform.position, directionToTarget, distanceToTarget, _obstacleMask))
                 {
                     _targets.Add(target);
+                    uniqueTargets.Add(target); 
                 }
             }
         }
-
     }
 
     public Vector3 DirectionFromAngle(float angleInDegrees, bool isAngleIsGlobal)
@@ -119,14 +128,15 @@ public class FieldOfView : MonoBehaviour
             return new ViewCastInfo(false, transform.position + dir * _viewRadius, _viewRadius, angle);
         }
     }
+}
 
-    public struct ViewCastInfo
-    {
-        public bool hit;
-        public Vector3 point;
-        public float distance;
-        public float angle;
-    }
+public struct ViewCastInfo
+{
+    public bool hit;
+    public Vector3 point;
+    public float distance;
+    public float angle;
+
 
     public ViewCastInfo(bool Hit, Vector3 Point, float Distance, float Angle)
     {
