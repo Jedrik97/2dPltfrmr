@@ -50,13 +50,21 @@ public class PoolObjectScript : MonoBehaviour
             bullet.transform.position = spawnPoint.position; 
             bullet.transform.rotation = spawnPoint.rotation; 
             bullet.SetActive(true); 
-            
+
             Rigidbody rb = bullet.GetComponent<Rigidbody>();
+            rb.linearVelocity = Vector3.zero;            // Сброс скорости
+            rb.angularVelocity = Vector3.zero;    // Сброс вращения
+            rb.isKinematic = false;               // Включить физику
             rb.linearVelocity = spawnPoint.forward * _speed;
         }
     }
+
     public void ReturnToPool(GameObject bullet)
     {
+        Rigidbody rb = bullet.GetComponent<Rigidbody>();
+        rb.linearVelocity = Vector3.zero;            // Сброс скорости
+        rb.angularVelocity = Vector3.zero;    // Сброс вращения
+        bullet.transform.rotation = Quaternion.identity; // Сброс вращения
         bullet.SetActive(false);
         _bulletPool.Enqueue(bullet);
     }
