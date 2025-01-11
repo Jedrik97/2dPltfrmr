@@ -39,5 +39,14 @@ public class WayPointVision
             Vector3 offsetTo = wayPoint.NextWayPoint.transform.right * -wayPoint.NextWayPoint.Width / 2;
             Gizmos.DrawLine(wayPoint.transform.position + offset, wayPoint.NextWayPoint.transform.position + offsetTo);
         }
+
+        if (wayPoint.WayPoints != null)
+        {
+            foreach (WayPoint branch in wayPoint.WayPoints)
+            {
+                Gizmos.color = Color.cyan;
+                Gizmos.DrawLine(wayPoint.transform.position, branch.transform.position);
+            }
+        }
     }
 }

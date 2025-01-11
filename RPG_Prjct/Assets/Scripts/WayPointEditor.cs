@@ -1,3 +1,4 @@
+using Unity.Multiplayer.Center.Common;
 using UnityEditor;
 using UnityEngine;
 
@@ -39,15 +40,55 @@ public class WayPointEditor : EditorWindow
 
       if (Selection.activeGameObject != null && Selection.activeGameObject.GetComponent<WayPoint>())
       {
-         if (GUILayout.Button("Add NextWayPoint"))
+         if (GUILayout.Button("Add Next WayPoint"))
          {
             CreateWayPointAfter();
-            if (GUILayout.Button("Previous WayPoint"))
+         }
+
+         if (GUILayout.Button("Previous WayPoint"))
             {
                CreateWayPointBefore();
             }
+
+         if (GUILayout.Button("Delete WayPoint"))
+         {
+            DeleteWayPoint();
+         }
+
+         if (GUILayout.Button("Add Branch Waypoint"))
+         {
+            BranchWayPoint();
          }
       }
+   }
+
+   private void BranchWayPoint()
+   {
+      GameObject wayPointObj = new GameObject("WayPoint" + WayPointsRoot.childCount, typeof(WayPoint));
+      wayPointObj.transform.SetParent(WayPointsRoot, false);
+      WayPoint wayPoint = wayPointObj.GetComponent<WayPoint>();
+      WayPoint branchifFrom = Selection.activeGameObject.GetComponent<WayPoint>();
+      branchifFrom.WayPoints.Add(wayPoint);
+      wayPoint.transform.position = branchifFrom.transform.position;
+      wayPoint.transform.forward = branchifFrom.transform.forward;
+      
+      Selection.activeGameObject = wayPoint.gameObject;
+   }
+
+   private void DeleteWayPoint()
+   {
+      WayPoint selectedWayPoint = Selection.activeGameObject.GetComponent<WayPoint>();
+      if (selectedWayPoint.NextWayPoint != null)
+      {
+         selectedWayPoint.NextWayPoint.PreviousWayPoint = selectedWayPoint.PreviousWayPoint;
+      }
+
+      if (selectedWayPoint.PreviousWayPoint != null)
+      {
+         selectedWayPoint.PreviousWayPoint.NextWayPoint = selectedWayPoint.NextWayPoint;
+         Selection.activeGameObject = selectedWayPoint.PreviousWayPoint.gameObject;
+      }
+      DestroyImmediate(selectedWayPoint.gameObject);
    }
 
    private void CreateWayPointBefore()
