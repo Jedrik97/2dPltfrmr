@@ -8,7 +8,7 @@ public class Bullet : MonoBehaviour
     private float _shootingLength;
     private Vector3 _startPosition;
 
-    [SerializeField] private GameObject collisionEffectPrefab; // Префаб эффекта при столкновении
+    [SerializeField] private GameObject collisionEffectPrefab;
 
     public void Initialize(PoolObjectScript pool, List<LayerMask> targetMasks, float shootingLength)
     {
@@ -32,14 +32,14 @@ public class Bullet : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Создаем эффект на месте столкновения
+       
         if (collisionEffectPrefab != null)
         {
             GameObject effect = Instantiate(collisionEffectPrefab, collision.contacts[0].point, Quaternion.identity);
-            Destroy(effect, 1f); // Уничтожить эффект через 1 секунду
+            Destroy(effect, 1f);
         }
 
-        // Проверяем, является ли объект целью
+        
         foreach (LayerMask mask in _targetMasks)
         {
             if (((1 << collision.gameObject.layer) & mask) != 0)
@@ -48,8 +48,7 @@ public class Bullet : MonoBehaviour
                 break;
             }
         }
-
-        // Возвращаем пулю в пул
+        
         _pool.ReturnToPool(gameObject);
     }
 
