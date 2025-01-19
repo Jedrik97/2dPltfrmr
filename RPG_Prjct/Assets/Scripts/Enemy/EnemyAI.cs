@@ -1,40 +1,43 @@
 using UnityEngine;
-using System.Collections;
 
 public class EnemyAI : MonoBehaviour
 {
-    public float chaseSpeed = 5f;
-    public float normalSpeed = 2f;
-    private Transform player;
-    public bool isChasing = false;
-    public float viewRadius;
-    public float obstacleCheckDistance = 1f;
+    public float chaseSpeed = 5f; 
+    public float normalSpeed = 2f; 
+    private Transform player; 
+    private bool isChasing = false; 
+    public float viewRadius = 10f; 
+    public float obstacleCheckDistance = 1f; 
 
-    private FieldOfView fieldOfView;
+    [SerializeField] private float stopDistance = 2f; 
+
+    private FieldOfView fieldOfView; 
+
     private void Start()
     {
-        fieldOfView = GetComponent<FieldOfView>();
+        fieldOfView = GetComponent<FieldOfView>(); 
     }
 
     private void Update()
     {
+        
         if (fieldOfView._targets.Count > 0)
         {
-            player = fieldOfView._targets[0];
-            isChasing = true;
+            player = fieldOfView._targets[0]; 
+            isChasing = true; 
         }
         else
         {
-            isChasing = false;
+            isChasing = false; 
         }
 
         if (isChasing && player != null)
         {
-            ChasePlayer();
+            MoveTowardsPlayer(); 
         }
     }
 
-    private void ChasePlayer()
+    private void MoveTowardsPlayer()
     {
         if (player == null)
         {
@@ -42,26 +45,26 @@ public class EnemyAI : MonoBehaviour
             return;
         }
 
-        Vector3 direction = (player.position - transform.position).normalized;
-        float distance = Vector3.Distance(transform.position, player.position);
+        float distance = Vector3.Distance(transform.position, player.position); 
+
         
-        if (distance > viewRadius) 
+        if (distance > stopDistance)
         {
-            isChasing = false; 
+            
+            RaycastHit hit;
+            Vector3 direction = (player.position - transform.position).normalized; 
+
+            if (!Physics.Raycast(transform.position, direction, out hit, obstacleCheckDistance))
+            {
+                
+                transform.position = Vector3.MoveTowards(transform.position, player.position, chaseSpeed * Time.deltaTime);
+                transform.LookAt(player); 
+            }
         }
         else
         {
-            RaycastHit hit;
-            if (Physics.Raycast(transform.position, direction, out hit, obstacleCheckDistance))
-            {
-                if (hit.collider != null)
-                {
-                    return;
-                }
-            }
             
-            transform.position = Vector3.MoveTowards(transform.position, player.position, chaseSpeed * Time.deltaTime);
-            transform.LookAt(player);
+            transform.LookAt(player); 
         }
     }
 }

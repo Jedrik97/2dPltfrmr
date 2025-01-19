@@ -18,11 +18,10 @@ public class Inventory
     {
         for (int i = 0; i < Container.Items.Length; i++)
         {
-            if (Container.Items[i].SlotID == item.Id);
+            if (Container.Items[i].SlotID == item.Id)
             {
                 Container.Items[i].AddAmount(amount);
                 return;
-                
             }
             
         }

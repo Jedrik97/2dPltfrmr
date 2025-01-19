@@ -72,6 +72,8 @@ public class WayPointEditor : EditorWindow
       wayPoint.transform.position = branchifFrom.transform.position;
       wayPoint.transform.forward = branchifFrom.transform.forward;
       
+      wayPoint.branchProbability = 50;
+      
       Selection.activeGameObject = wayPoint.gameObject;
    }
 

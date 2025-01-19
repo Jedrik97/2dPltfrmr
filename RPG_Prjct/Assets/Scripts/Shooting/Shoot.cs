@@ -8,6 +8,7 @@ public class Shoot : MonoBehaviour
     private int _currentAmmo;
     private int _maxAmmo = 32;
     private bool _isReloading = false;
+    private bool _isShooting = false; 
 
     private void Start()
     {
@@ -17,14 +18,17 @@ public class Shoot : MonoBehaviour
 
     private void Update()
     {
+        
         if (_isReloading) return;
 
-        if (Input.GetMouseButtonDown(1) && _currentAmmo > 0) 
+        
+        if (Input.GetMouseButtonDown(1) && _currentAmmo > 0 && !_isShooting)
         {
             ShootBullet();
         }
 
-        if (Input.GetKeyDown(KeyCode.R) || _currentAmmo <= 0) 
+        
+        if (Input.GetKeyDown(KeyCode.R) || _currentAmmo <= 0)
         {
             StartCoroutine(Reload());
         }
@@ -36,7 +40,15 @@ public class Shoot : MonoBehaviour
         {
             _currentAmmo--;
             UpdateAmmoUI();
+            _isShooting = true;  
+            StartCoroutine(ResetShootFlag());  
         }
+    }
+
+    private System.Collections.IEnumerator ResetShootFlag()
+    {
+        yield return new WaitForSeconds(0.5f);  
+        _isShooting = false;  
     }
 
     private System.Collections.IEnumerator Reload()
@@ -45,7 +57,7 @@ public class Shoot : MonoBehaviour
         ammoText.text = "Reloading...";
         yield return new WaitForSeconds(1.5f);
         _currentAmmo = _maxAmmo;
-        poolObjectScript.ReloadPool();
+        poolObjectScript.ReloadPool();  
         UpdateAmmoUI();
         _isReloading = false;
     }

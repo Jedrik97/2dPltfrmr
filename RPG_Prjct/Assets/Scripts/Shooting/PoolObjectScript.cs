@@ -5,9 +5,8 @@
     {
         [SerializeField] private GameObject bulletPrefab;
         [SerializeField] private Transform spawnPoint;
-        [SerializeField] private int _poolSize = 32; // Размер пула
+        [SerializeField] private int _poolSize = 32;
         [SerializeField] private float _shootingLength = 15f;
-        [SerializeField] private float _fireRate = 0.5f;
         [SerializeField] private List<LayerMask> targetMasks;
         [SerializeField] private float _speed = 15f;
 

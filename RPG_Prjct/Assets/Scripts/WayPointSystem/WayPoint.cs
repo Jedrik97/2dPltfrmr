@@ -7,7 +7,7 @@ public class WayPoint : MonoBehaviour
     public WayPoint PreviousWayPoint;
     public WayPoint NextWayPoint;
     [UnityEngine.Range(0f, 5f)] public float Width = 3f;
-    
+    [UnityEngine.Range(0, 100)] public float branchProbability = 0;
     public List<WayPoint> WayPoints = new List<WayPoint>();
 
     public Vector3 GetPositionWayPoint()
