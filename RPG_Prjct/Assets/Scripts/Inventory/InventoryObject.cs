@@ -4,14 +4,6 @@ using UnityEngine;
 public class InventoryObject : ScriptableObject
 {
     public ItemDatabaseObject database;
-    public Inventory Cotainer;
-
-}
-
-[System.Serializable]
-public class Inventory
-{
-    public InventorySlot[] Items = new InventorySlot[20];
     public Inventory Container;
 
     public void AddItem(Item item, int amount)
@@ -23,8 +15,9 @@ public class Inventory
                 Container.Items[i].AddAmount(amount);
                 return;
             }
-            
+
         }
+
         SetEmptySlot(item, amount);
     }
 
@@ -36,7 +29,7 @@ public class Inventory
             {
                 Container.Items[i].UpdateSlot(-1, null, 0);
             }
-            
+
         }
     }
 
@@ -45,8 +38,8 @@ public class Inventory
         InventorySlot temp = new InventorySlot(toSlot.SlotID, toSlot.item, toSlot.amount);
         toSlot.UpdateSlot(fromSlot.SlotID, fromSlot.item, fromSlot.amount);
         fromSlot.UpdateSlot(toSlot.SlotID, toSlot.item, toSlot.amount);
-        
     }
+
     private InventorySlot SetEmptySlot(Item item, int amount)
     {
         for (int i = 0; i < Container.Items.Length; i++)
@@ -60,40 +53,46 @@ public class Inventory
 
         return null;
     }
-}
 
-
-[System.Serializable]
-public class InventorySlot
-{
-    public int SlotID = -1;
-    public Item item;
-    public int amount;
-
-    public InventorySlot()
+    [System.Serializable]
+    public class Inventory
     {
-        SlotID = -1;
-        item = null;   
-        amount = 0;
+        public InventorySlot[] Items = new InventorySlot[20];
         
     }
 
-    public InventorySlot(int slotID, Item item, int amount)
+    [System.Serializable]
+    public class InventorySlot
     {
-        SlotID = slotID;
-        this.item = item;
-        this.amount = amount;
-    }
+        public int SlotID = -1;
+        public Item item;
+        public int amount;
 
-    public void UpdateSlot(int slotID, Item item, int amount)
-    {
-        SlotID = slotID;
-        this.item = item;
-        this.amount = amount;
-    }
+        public InventorySlot()
+        {
+            SlotID = -1;
+            item = null;
+            amount = 0;
 
-    public void AddAmount(int value)
-    {
-        amount += value;
+        }
+
+        public InventorySlot(int slotID, Item item, int amount)
+        {
+            SlotID = slotID;
+            this.item = item;
+            this.amount = amount;
+        }
+
+        public void UpdateSlot(int slotID, Item item, int amount)
+        {
+            SlotID = slotID;
+            this.item = item;
+            this.amount = amount;
+        }
+
+        public void AddAmount(int value)
+        {
+            amount += value;
+        }
     }
 }

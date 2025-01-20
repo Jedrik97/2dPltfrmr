@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +20,7 @@ public class ItemDatabaseObject : ScriptableObject, ISerializationCallbackReceiv
         for (int i = 0; i < Items.Length; i++)
         {
             Items[i].ID = i;
-            GetItem.Add(i, Items[i]);
+            GetItem.TryAdd(i, Items[i]);
         }
     }
 }
