@@ -5,6 +5,9 @@ public class MouseMovementController : MonoBehaviour
 {
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private Camera _camera;
+    [SerializeField] private GameObject _canvas;
+    
+
 
     private Rigidbody _rb;
     private NavMeshAgent _agent;
@@ -22,6 +25,18 @@ public class MouseMovementController : MonoBehaviour
     private void Update()
     {
         HandleMouseInput();
+        
+        if(Input.GetKeyDown(KeyCode.I))
+        {
+            if (!_canvas.activeSelf)
+            {
+                _canvas.SetActive(true);
+            }
+            else
+            {
+                _canvas.SetActive(false);
+            }
+        }
     }
 
     private void FixedUpdate()

@@ -15,12 +15,12 @@ public class PlayerInteract : MonoBehaviour
         }
     }
 
-    // public void OnTriggerEnter2D(Collider2D other)
-    // {
-    //     var item = other.GetComponent<GroundItemWithOutMesh>();
-    //     if (item)
-    //     {
-    //         Item _item = new Item(item.i);
-    //     }
-    // }
+    public void OnTriggerEnter2D(Collider2D other)
+     {
+         var item = other.GetComponent<GroundItemWithOutMesh>();
+         if (item)
+         {
+            Item _item = new Item(item.item);
+         }
+     }
 }

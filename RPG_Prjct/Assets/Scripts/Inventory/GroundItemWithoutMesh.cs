@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class GroundItemWithOutMesh : MonoBehaviour, ISerializationCallbackReceiver
 {
-    [SerializeField] private ItemsObject item;
+    internal ItemsObject item;
 
 public void OnBeforeSerialize()
 {
